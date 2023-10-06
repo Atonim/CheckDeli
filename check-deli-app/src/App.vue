@@ -1,11 +1,9 @@
 <script setup>
-//import HelloWorld from './components/HelloWorld.vue'
-import Adding from './components/Adding.vue';
+
 </script>
 
 <template>
-  <!--<HelloWorld msg="Vite + Vue" />-->
-  <Adding />
+  <router-view></router-view>
 </template>
 
 <style scoped>

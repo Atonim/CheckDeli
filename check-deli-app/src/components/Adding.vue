@@ -21,22 +21,20 @@ export default {
 
 <template>
   <div class="container">
-    <div class="main">
-      <div class="list-container">
-        <div class="v-btn-container">
-          <v-btn class="adding-v-btn" variant="outlined" @click="addPerson">Добавить человека</v-btn>
-        </div>
-        <div class="list">
-          <div v-for="person in people" class="person-container">
-            <v-avatar color="surface-variant" size="50"></v-avatar>
-            <!--убрал v-bind-->
-            <v-text-field clearable hide-details="auto" class="v-text" @input="person.name = $event.target.value"
-              label="Имя"></v-text-field>
-
-          </div>
+    <div class="adding-person-field">
+      <div class="adding-person-header">
+        <v-btn class="adding-v-btn" variant="outlined" @click="addPerson">Добавить человека</v-btn>
+      </div>
+      <div class="adding-person-main">
+        <div v-for="person in people" class="person-container">
+          <v-avatar color="surface-variant" size="50"></v-avatar>
+          <!--убрал v-bind-->
+          <v-text-field clearable hide-details="auto" class="v-text" v-model="person.name" label="Имя"></v-text-field>
         </div>
       </div>
-      <v-btn class="approve-v-btn" variant="outlined">Вперед</v-btn>
+      <div class="adding-person-apply">
+        <v-btn class="approve-v-btn" variant="outlined" @click="$router.push('/calculator')">Вперед</v-btn>
+      </div>
     </div>
   </div>
 </template>
@@ -54,14 +52,14 @@ export default {
   background-color: #0E141B;
 }
 
-.main {
+.adding-person-field {
   background-color: #FFBD00;
   text-align: center;
   padding: 25px;
   border-radius: 15px;
 }
 
-.list {
+.adding-person-main {
   color: #003049;
   max-height: 50vh;
   width: 50vh;
@@ -75,7 +73,7 @@ export default {
   margin: 25px;
 }
 
-.v-btn-container {
+.adding-person-header {
   border-bottom: 3px solid #003049;
 }
 
@@ -87,9 +85,5 @@ export default {
 
 .v-text {
   max-width: 30vw;
-}
-
-.mdi-close-circle {
-  background-color: #0E141B;
 }
 </style>
