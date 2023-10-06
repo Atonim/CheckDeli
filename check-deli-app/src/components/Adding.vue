@@ -7,10 +7,13 @@ export default {
   },
   methods: {
     addPerson() {
-      this.people.push('Person');
+      this.people.push({ name: '' });
     },
     removePerson() {
       this.people.pop();
+    },
+    inputName(event) {
+      this.person.name = event.target.value;
     }
   }
 }
@@ -26,7 +29,9 @@ export default {
         <div class="list">
           <div v-for="person in people" class="person-container">
             <v-avatar color="surface-variant" size="50"></v-avatar>
-            <v-text-field clearable class="v-text"></v-text-field>
+            <!--убрал v-bind-->
+            <v-text-field clearable hide-details="auto" class="v-text" @input="person.name = $event.target.value"
+              label="Имя"></v-text-field>
 
           </div>
         </div>
@@ -82,5 +87,9 @@ export default {
 
 .v-text {
   max-width: 30vw;
+}
+
+.mdi-close-circle {
+  background-color: #0E141B;
 }
 </style>
