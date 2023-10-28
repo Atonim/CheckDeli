@@ -1,11 +1,11 @@
 <script>
-import { mapState, mapGetters } from 'vuex'
+import { mapState, mapGetters, mapMutations } from 'vuex'
 export default {
   data() {
     return {
       totalPrice: 0,
       isAllCustomersIncluded: false,
-      bill:[]
+      bill:[],
     }
     
   },
@@ -16,6 +16,8 @@ export default {
     ...mapGetters({
       allPeople: 'people/allPeople'
     }),
+    
+    
     //updateTotalPrice(){
     //  if (this.bill.length){
     //    const initialValue = 0;
@@ -25,45 +27,81 @@ export default {
     //}
   },
   methods:{
+    ...mapMutations({
+      setDebts: 'people/setDebts'
+    }),
     addPosition(){
       const newPosition = {
         id: Date.now(),
         title: '',
         price: null,
-        payer: '',
+        payer: null,
         customers: []
       }
       this.bill.push(newPosition);
-      console.log(this.bill);
     },
     removePosition(position){
       this.bill = this.bill.filter(p => p.id !== position.id)
     },
-    addCustomer(event, person, position){
-      console.log('add');
-      console.log(event);
-      if (!position.customers.map(c => c.id).includes(person.id)){
-        position.customers.push(person);
-      }
+    addedAllCustomers (position) {
+        return position.customers.length === this.allPeople.length
     },
-    removeCustomer(event, person, position){
-      console.log('remove');
-      console.log(event);
-      position.customers = position.customers.filter(p => p.id !== person.id)
+    addedSomeCustomers (position) {
+        return position.customers.length > 0
     },
-    addAllCustomers(event, position){
-      position.customers = [];
-      console.log('add all');
-      this.allPeople.forEach((person) => {
-        position.customers.push(person);
-      });
-      this.isAllCustomersIncluded = true;
+    //addCustomer(event, person, position){
+    //  if (!position.customers.map(c => c.id).includes(person.id)){
+    //    position.customers.push(person);
+    //  }
+    //},
+    //removeCustomer(event, person, position){
+    //  position.customers = position.customers.filter(p => p.id !== person.id)
+    //},
+    //addAllCustomers(event, position){
+    //  position.customers = [];
+    //  this.allPeople.forEach((person) => {
+    //    position.customers.push(person);
+    //  });
+    //  this.isAllCustomersIncluded = true;
+    //},
+    //removeAllCustomers(event, position){
+    //  position.customers = [];
+    //  this.isAllCustomersIncluded = false;
+    //},
+    apply(){
+      //for (let i = 0; i < this.bill.length;i++){
+
+      //  for (let j = 0; j < this.allPeople.length; j++) {
+
+      //    if (this.bill[i].customers.includes(this.allPeople[j])){
+      //      //console.log('in bill');
+      //      const debtName = this.bill[i].payer;
+      //      const debtPrice = this.bill[i].price / this.bill[i].customers.length;
+      //      const newDebt = {
+      //        id: Date.now(),
+      //        name: debtName,
+      //        price: debtPrice
+      //      }
+      //      console.log('---------');
+      //      console.log(j);
+      //      console.log(newDebt);
+      //      console.log('---------');
+      //      this.setDebts(JSON.stringify(this.newDebt));
+      //      //person.debts.push(newDebt);
+      //      //console.log(person);
+      //    }
+      //  }
+      //}
+      this.setDebts(this.bill);
+      this.$router.push('/result');
     },
-    removeAllCustomers(event, position){
-      console.log('remove all');
-      position.customers = [];
-      this.isAllCustomersIncluded = false;
-    }
+    toggle (event, position) {
+        if (this.addedAllCustomers(position)) {
+          position.customers = []
+        } else {
+          position.customers = this.allPeople.slice()
+        }
+      },
   },
   watch: {
     bill:{
@@ -102,147 +140,279 @@ export default {
               v-for="position in bill"
               :key="position.id"
               >
-         
-              <v-text-field 
-                clearable 
-                hide-details="auto"  
-                variant="solo"  
-                v-model="position.title" 
-                label="Название"
-              >
-              </v-text-field>
-
-              <v-text-field 
-                clearable 
-                hide-details="auto"  
-                variant="solo"  
-                type="number" 
-                v-model.number="position.price" 
-                label="Цена"
-              >
-              </v-text-field>
-          
-              <v-select
-                clearable
-                label="Кто заплатил?"
-                :items="allPeople"
-                item-title="name"
-                v-model="position.payer"
-                variant="solo"
-              >
-              </v-select>
-              <v-btn 
-                variant="outlined" 
-                @click="removePosition(position)"
-              >
-                Удалить позицию
-              </v-btn>
-              <v-item-group multiple>
-                <v-container>
-                  <v-row>
-                    <v-col>
-                      <v-item
-                        v-slot="{ isSelected, toggle }"
-                      >
-                        <v-card 
-                        :color="isSelected ? 'primary' : ''"
-                          class="d-flex align-center"
-                          dark
-                          @click="toggle($event), !isSelected ? addAllCustomers($event, position) : removeAllCustomers($event, position)">
-                          <v-scroll-y-transition>
-                            <div
-                              class="pa-2 flex-grow-1 text-center"
-                            >
-                              Все
-                            </div>
-                          </v-scroll-y-transition>
-                        </v-card>
-                      </v-item>
-                    </v-col>
-                    <v-col
-                      v-for="person in allPeople"
-                      :key="person.name"
-                      cols="auto"
-                    >
-                      <v-item 
-                        v-slot="{ isSelected, toggle }"
-                      >
-                        <v-card
-                          :color="this.isAllCustomersIncluded ?  'primary': (isSelected ? 'primary' : '')"
-                          class="d-flex align-center"
-                          dark
-                          @click="toggle($event), !isSelected ? addCustomer($event, person, position) : removeCustomer($event, person, position)"
+              <v-container>
+                <v-row>
+                  
+                  <v-col
+                    cols="12"
+                    md="12"
+                  >
+                    <v-expansion-panels variant="accordion">
+                      <v-expansion-panel class="panel">
+                      <v-expansion-panel-title>
+                        <v-col
+                          cols="12"
+                          md="6"
                         >
-                          <v-scroll-y-transition>
-                            <div
-                              class="pa-2 flex-grow-1 text-center"
+                          <v-text-field 
+                          @click.native.stop
+                            clearable 
+                            hide-details="auto"   
+                            v-model="position.title" 
+                            label="Название"
+                          >
+                          </v-text-field>
+                        </v-col>
+
+                        <v-col
+                          cols="12"
+                          md="6"
+                        >
+                          <v-text-field 
+                            clearable 
+                            hide-details="auto"  
+                            @click.native.stop
+                            type="number" 
+                            v-model.number="position.price" 
+                            label="Цена"
+                          >
+                          </v-text-field>
+                        </v-col>
+                     
+                      </v-expansion-panel-title>
+                      <v-expansion-panel-text>
+                        <v-row>
+                          <v-col
+                            cols="12"
+                            md="6"
+                          >
+                            <v-select
+                              clearable
+                              label="Кто заплатил?"
+                              :items="allPeople"
+                              :item-props="true"
+                              item-title="name"
+                              item-value="id"
+                              v-model="position.payer"
+
                             >
-                              {{ person.name }}
-                            </div>
-                          </v-scroll-y-transition>
-                        </v-card>
-                      </v-item>
-                    </v-col>
-                  </v-row>
-                </v-container>
-              </v-item-group>
-              <v-divider class="border-opacity-100"></v-divider>
+                            </v-select>
+                          </v-col>
+                          <v-col
+                            cols="12"
+                            md="6"
+                          >
+                          <!--v-model="selectedCustomers"-->
+                            <v-select
+                              v-model="position.customers"
+                              :items="allPeople"
+                              item-title="name"
+                              label="Кто ел/пил?"
+                              multiple
+                            >
+                              <template v-slot:prepend-item>
+                                <v-list-item
+                                  title="Выбрать всех"
+                                  @click="toggle($event, position)"
+                                >
+                                  <template v-slot:prepend>
+                                    <v-checkbox-btn
+                                      :color="this.addedSomeCustomers(position) ? 'indigo-darken-4' : undefined"
+                                      :indeterminate="this.addedSomeCustomers(position) && !this.addedAllCustomers(position)"
+                                      :model-value="this.addedSomeCustomers(position)"
+                                    ></v-checkbox-btn>
+                                  </template>
+                                </v-list-item>
+
+                                <v-divider class="mt-2"></v-divider>
+                              </template>
+
+                              <!--<template v-slot:append-item>
+                                <v-divider class="mb-2"></v-divider>
+
+                                <v-list-item
+                                  :subtitle="subtitle"
+                                  :title="title"
+                                  disabled
+                                >
+                                  <template v-slot:prepend>
+                                    <v-avatar icon="mdi-food-apple" color="primary">
+                                      mdi-food-apple
+                                    </v-avatar>
+                                  </template>
+                                </v-list-item>
+                              </template>-->
+
+                            </v-select>
+                          </v-col>
+                          
+                        </v-row>
+
+                        <!--<v-row>
+                          <v-item-group multiple>
+                            <v-container>
+                              <v-row>-->
+                            <!--<v-col>
+                              <v-item
+                                v-slot="{ isSelected, toggle }"
+                              >
+                                <v-card 
+                                :color="isSelected ? 'primary' : ''"
+                                  class="d-flex align-center"
+                                  dark
+                                  @click="toggle($event), !isSelected ? addAllCustomers($event, position) : removeAllCustomers($event, position)">
+                                  <v-scroll-y-transition>
+                                    <div
+                                      class="pa-2 flex-grow-1 text-center"
+                                    >
+                                      Все
+                                    </div>
+                                  </v-scroll-y-transition>
+                                </v-card>
+                              </v-item>
+                            </v-col>-->
+                                <!--<v-col
+                                  v-for="person in allPeople"
+                                  :key="person.name"
+                                  cols="auto"
+                                >
+                                  <v-item 
+                                    v-slot="{ isSelected, toggle }"
+                                  >
+                                    <v-card
+                                      :color="this.isAllCustomersIncluded ?  'outlined': (isSelected ? 'primary' : '')"
+                                      class="d-flex align-center"
+
+                                      @click="toggle($event), !isSelected ? addCustomer($event, person, position) : removeCustomer($event, person, position)"
+                                    >
+                                      <v-scroll-y-transition>
+                                        <div
+                                          class="pa-2 flex-grow-1 text-center"
+                                        >
+                                          {{ person.name }}
+                                        </div>
+                                      </v-scroll-y-transition>
+                                    </v-card>
+                                  </v-item>
+                                </v-col>
+                              </v-row>
+                            </v-container>
+                          </v-item-group>
+                        </v-row>-->
+                        <v-row>
+                          <v-col
+                            
+                          >
+                            <v-btn block
+                            variant="outlined" 
+                            class="remove"
+                            @click="removePosition(position)"
+                            >
+                            Удалить позицию
+                            </v-btn>
+                          </v-col>
+                        </v-row>
+
+
+                      </v-expansion-panel-text>
+                      </v-expansion-panel>
+                    </v-expansion-panels>
+                  </v-col>
+                  
+               
+
+                </v-row>
+              </v-container>
             </div>
           </div>
+          <div v-else>
+            Список пуст
+          </div>
         </v-slide-x-reverse-transition>
-       
-        <!--<div v-for="person in this.allPeople">
-          {{ person.name }}
-        </div>-->
       </div>
+
       <div class="calculating-results">
         <p>Сумма чека:</p>
-        <p>{{this.totalPrice}}</p>
+        <p>{{this.totalPrice}} ₽</p>
       </div>
+
       <div class="calculating-apply">
-        <v-btn class="adding-v-btn" variant="outlined">Рассчитать!</v-btn>
+        <v-btn class="apply-v-btn" variant="outlined" @click="apply">Рассчитать!</v-btn>
       </div>
     </div>
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .container {
   display: flex;
   justify-content: center;
   align-items: center;
-
-  width: 100vw;
   height: 100vh;
   background-color: #0E141B;
 }
 
 .calculating-field {
-  background-color: #FFBD00;
   text-align: center;
-  padding: 25px;
-  border-radius: 15px;
   width:50vw;
-}
-.calculating-main{
-  min-height: 30vh;
-  max-height: 70vh;
-  overflow: scroll;
-  overflow-x:hidden; 
-}
-.input-container{
-  display: flex;
-  justify-content: space-evenly;
-  gap: 10px;
-  margin-top: 10px;
-}
-.calculating-results{
-  min-height: 50px;
-}
-.v-text {
-  max-width: 30vw;
-}
-.person-container{
-  display:flex
+  scrollbar-color: black #FFBD00;
+
+  .calculating-header {
+    border-bottom: 3px solid #0E141B;
+    border-radius: 15px 15px 0 0;
+    background-color: #FFBD00;
+    .adding-v-btn {
+      width: 30vh;
+      margin: 25px;
+    }
+  }
+
+  .calculating-main{
+    min-height: 30vh;
+    max-height: 70vh;
+    overflow: scroll;
+    overflow-x:hidden; 
+    border-radius: 0 0 15px 15px;
+    background-color: #FFBD00;
+    padding: 15px 0;
+    .icon{
+      align-items: center;
+    }
+    .panel{
+      background-color:#f0b000
+    }
+
+  }
+  .calculating-main::-webkit-scrollbar {
+    width: 5px;
+  }
+  .calculating-main::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background-color: #0E141B;
+  }
+  .calculating-main::-webkit-scrollbar-track {
+    border-radius: 5px;
+    background-color: #FFBD00;
+    margin: 15px 0;
+    height: 90%;
+  }
+
+  .calculating-results{
+    margin-top:15px;
+    min-height: 50px;
+    border-radius: 15px;
+    background-color: #FFBD00;
+    padding: 10px;
+  }
+
+  .calculating-apply{
+    margin-top:15px;
+    border-radius: 15px;
+    background-color: #FFBD00;
+    .apply-v-btn{
+      margin: 10px;
+      width: 30vh;
+    }
+  }
 }
 </style>

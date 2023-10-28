@@ -2,6 +2,7 @@ import StartView from '@/views/StartView.vue';
 import ErrorView from '@/views/ErrorView.vue';
 import AddingView from '@/views/AddingView.vue';
 import CalculatorView from '@/views/CalculatorView.vue';
+import ResultView from '@/views/ResultView.vue';
 import { createRouter, createWebHistory } from 'vue-router';
 
 
@@ -17,6 +18,10 @@ const routes = [
   {
     path: '/calculator',
     component: CalculatorView
+  },
+  {
+    path: '/result',
+    component: ResultView
   },
   {
     path: '/:pathMatch(.*)*',

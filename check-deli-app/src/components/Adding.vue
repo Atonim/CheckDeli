@@ -34,7 +34,8 @@ export default {
     addPerson() {
       const newPerson = {
         id: Date.now(),
-        name: ''
+        name: '',
+        debts: []
       }
       this.people.push(newPerson);
     },
@@ -66,32 +67,27 @@ export default {
       </div>
 
       <div v-if="people.length" class="adding-person-main">
-        <!--<transition-group>-->
           <v-slide-x-reverse-transition group>
           <div v-for="person in people" :key="person.id" class="person-container">
-          <!--<v-avatar color="surface-variant" size="50"></v-avatar>-->
-          <!--убрал v-bind-->
             <v-text-field 
             clearable 
             hide-details="auto" 
-            class="v-text" 
             v-model="person.name" 
             label="Имя" 
             
-            :append-icon="'mdi-black-mesa'"
+            :append-icon="'mdi-delete'"
             @click:append="removePerson(person)"
             ></v-text-field>
           </div>
         </v-slide-x-reverse-transition>
         <!--:rules="rules"-->
-        <!--</transition-group>-->
       </div>
-      <div v-else>
+      <div v-else class="adding-person-main">
         Список пуст
       </div>
      
       <div class="adding-person-apply">
-        <v-btn class="approve-v-btn" variant="outlined" @click="apply">{{ checkname ? 'Вперед' : 'Введите имена'}}</v-btn>
+        <v-btn class="apply-v-btn" variant="outlined" @click="apply">{{ checkname ? 'Чек' : 'Введите имена'}}</v-btn>
       </div>
     </div>
   </div>
@@ -104,64 +100,64 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-
-  width: 100vw;
   height: 100vh;
   background-color: #0E141B;
 }
 
 .adding-person-field {
-  background-color: #FFBD00;
   text-align: center;
   padding: 25px;
-  border-radius: 15px;
-}
+  scrollbar-color: black #FFBD00;
 
-.adding-person-main {
-  color: #003049;
-  max-height: 50vh;
-  width: 50vh;
-  overflow: scroll;
-  overflow-x:hidden; 
-}
+  .adding-person-header {
+    border-bottom: 3px solid #0E141B;
+    border-radius: 15px 15px 0 0;
+    background-color: #FFBD00;
+    .adding-v-btn {
+      width: 30vh;
+      margin: 25px;
+    }
+  }
 
-//SCROLLBAR для Google
+  .adding-person-main {
+    border-radius: 0 0 15px 15px;
+    background-color: #FFBD00;
+    color: #0E141B;
+    padding: 10px;
+    max-height: 50vh;
+    width: 50vh;
+    overflow: scroll;
+    overflow-x:hidden;    
 
-.adding-person-main::-webkit-scrollbar {
-  width: 5px;
-  background-color: #FFBD00;;
-}
+    .person-container {
+      display: flex;
+      justify-content: space-evenly;
+      padding: 10px;
+    }
+  }
+  .adding-person-main::-webkit-scrollbar {
+    width: 5px;
+  }
+  .adding-person-main::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background-color: #0E141B;
+  }
+  .adding-person-main::-webkit-scrollbar-track {
+    border-radius: 5px;
+    background-color: #FFBD00;
+    margin: 15px 0;
+    height: 90%;
+  }
 
-.adding-person-main::-webkit-scrollbar-thumb {
-  border-radius: 5px;
-  background-color: #0E141B;
-}
+  .adding-person-apply{
+    margin-top:15px;
+    border-radius: 15px;
+    background-color: #FFBD00;
+    .apply-v-btn{
+      margin: 10px;
+      width: 30vh;
+    }
+  }
 
-.adding-person-main::-webkit-scrollbar-track {
-  border-radius: 5px;
-  background-color: #FFBD00;;
-}
-
-//SCROLLBAR для Google
-
-.adding-v-btn,
-.approve-v-btn {
-  background-color: #eae2b7;
-  width: 30vh;
-  margin: 25px;
-}
-
-.adding-person-header {
-  border-bottom: 3px solid #003049;
-}
-
-.person-container {
-  display: flex;
-  justify-content: space-evenly;
-  padding: 10px;
-}
-
-.v-text {
-  max-width: 30vw;
 }
 </style>
