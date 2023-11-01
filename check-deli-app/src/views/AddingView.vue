@@ -8,9 +8,11 @@ export default {
 </script>
 
 <template>
-  <div>
+  <div class="container">
     <Adding />
   </div>
 </template>
 
-<style></style>
+<style lang="scss">
+  @import '@/scss/container.scss';
+</style>

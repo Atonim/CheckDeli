@@ -120,7 +120,6 @@ export default {
 
 
 <template>
-  <div class="container">
     <div class="calculating-field">
 
       <div class="calculating-header">
@@ -340,17 +339,10 @@ export default {
         <v-btn class="apply-v-btn" variant="outlined" @click="apply">Рассчитать!</v-btn>
       </div>
     </div>
-  </div>
 </template>
 
-<style scoped lang="scss">
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-color: #0E141B;
-}
+<style lang="scss">
+//@import '@/scss/style.scss';
 
 .calculating-field {
   text-align: center;
@@ -362,6 +354,7 @@ export default {
     border-radius: 15px 15px 0 0;
     background-color: #FFBD00;
     .adding-v-btn {
+      //@include btn(30vh, 25px);
       width: 30vh;
       margin: 25px;
     }
@@ -410,6 +403,7 @@ export default {
     border-radius: 15px;
     background-color: #FFBD00;
     .apply-v-btn{
+      //@include btn(30vh, 10px);
       margin: 10px;
       width: 30vh;
     }

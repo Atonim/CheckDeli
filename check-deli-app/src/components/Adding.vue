@@ -53,7 +53,6 @@ export default {
 </script>
 
 <template>
-  <div class="container">
     <div class="adding-person-field">
       
       <div class="adding-person-header">
@@ -90,20 +89,12 @@ export default {
         <v-btn class="apply-v-btn" variant="outlined" @click="apply">{{ checkname ? 'Чек' : 'Введите имена'}}</v-btn>
       </div>
     </div>
-  </div>
 </template>
 
 
 
-<style lang="scss" scoped>
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-color: #0E141B;
-}
-
+<style lang="scss">
+//@import '@/scss/style.scss';
 .adding-person-field {
   text-align: center;
   padding: 25px;
@@ -114,6 +105,7 @@ export default {
     border-radius: 15px 15px 0 0;
     background-color: #FFBD00;
     .adding-v-btn {
+      //@include btn(30vh, 25px);
       width: 30vh;
       margin: 25px;
     }
@@ -154,6 +146,7 @@ export default {
     border-radius: 15px;
     background-color: #FFBD00;
     .apply-v-btn{
+      //@include btn(30vh, 10px);
       margin: 10px;
       width: 30vh;
     }

@@ -9,15 +9,15 @@
 </template>
 
 <style len="scss">
+@import '@/scss/style.scss';
 body {
+  
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   background-color: #0E141B;
-
-
-  
 }
+
 .wrap-container {
   max-width: 1200px;
   margin: 0px auto;

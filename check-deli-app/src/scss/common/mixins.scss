@@ -1,0 +1,47 @@
+@mixin field() {
+  //у calc нет padding
+  text-align: center;
+  padding: 25px;
+  width: 50vw;
+  scrollbar-color: black #FFBD00;
+}
+
+@mixin header() {
+  //у рез есть padding
+  border-bottom: 3px solid #0E141B;
+  border-radius: 15px 15px 0 0;
+  background-color: #FFBD00;
+}
+
+@mixin main() {
+  //у калк есть min height
+  //другой max height
+  //другой padding
+  border-radius: 0 0 15px 15px;
+  background-color: #FFBD00;
+  color: #0E141B;
+  padding: 10px;
+  max-height: 50vh;
+  width: 50vh;
+  overflow: scroll;
+  overflow-x: hidden;
+}
+
+@mixin btn($width, $margin) {
+  width: $width;
+  margin: $margin;
+}
+
+@mixin apply() {
+  margin-top: 15px;
+  border-radius: 15px;
+  background-color: #FFBD00;
+}
+
+@mixin midresults() {
+  margin-top: 15px;
+  min-height: 50px;
+  border-radius: 15px;
+  background-color: #FFBD00;
+  padding: 10px;
+}

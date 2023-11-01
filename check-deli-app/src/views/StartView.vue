@@ -1,31 +1,18 @@
 <script>
+import StartCard from '@/components/StartCard.vue'
 export default {
-
+  components: {
+    StartCard
+  }
 }
 </script>
 
 <template>
   <div class="container">
-    <h1 class="title">Раздели чек</h1>
-      <v-btn block class="adding-v-btn" variant="outlined" @click="this.$router.push('/adding')">Начать!</v-btn>
+    <StartCard/>
   </div>
 </template>
 
-<style lang='scss' scoped>
-.container{
-  background-color: #FFBD00;
-  margin: 0px auto;
-  max-width: 600px;
-  max-height: 200px;
-  display:block;
-  padding:15px;
-  border-radius: 15px;
-
-  
-  .title{
-    color:black;
-    text-align: center;
-  }
-  
-}
+<style lang='scss'>
+  @import '@/scss/container.scss';
 </style>

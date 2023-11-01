@@ -8,11 +8,11 @@ export default {
 </script>
 
 <template>
-  <div>
+  <div class="container">
     <Result />
   </div>
 </template>
 
-<style>
-  
+<style lang='scss'>
+  @import '@/scss/container.scss';
 </style>
