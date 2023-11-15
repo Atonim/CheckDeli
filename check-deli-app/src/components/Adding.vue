@@ -1,5 +1,5 @@
 <script>
-import { mapMutations } from 'vuex'
+import { mapMutations } from "vuex";
 export default {
   data() {
     return {
@@ -8,25 +8,24 @@ export default {
       //rules: [
       //  value => !!value || 'Обязательное поле',
       //],
-    }
+    };
   },
   methods: {
     ...mapMutations({
-      setPeople: 'people/setPeople'
+      setPeople: "people/setPeople",
     }),
     apply() {
-      this.checkNames()
-      if(this.people.length > 1 && this.checkname){
+      this.checkNames();
+      if (this.people.length > 1 && this.checkname) {
         this.setPeople(this.people);
-        this.$router.push('/calculator');
+        this.$router.push("/calculator");
       }
-      
     },
-    checkNames(){
-      this.people.forEach(person => {
-        if(!person.name) {
+    checkNames() {
+      this.people.forEach((person) => {
+        if (!person.name) {
           this.checkname = false;
-          return
+          return;
         }
         this.checkname = true;
       });
@@ -34,123 +33,86 @@ export default {
     addPerson() {
       const newPerson = {
         id: Date.now(),
-        name: '',
-        debts: []
-      }
+        name: "",
+        debts: [],
+      };
       this.people.push(newPerson);
     },
     removePerson(person) {
-      this.people = this.people.filter(p => p.id !== person.id)
+      this.people = this.people.filter((p) => p.id !== person.id);
     },
     //inputName(event) {
     //  this.person.name = event.target.value;
     //}
   },
-  computed:{
-    
-  }
-}
+  computed: {},
+};
 </script>
 
 <template>
-    <div class="adding-person-field">
-      
-      <div class="adding-person-header">
-        <v-btn 
-          class="adding-v-btn" 
-          variant="outlined" 
-          @click="addPerson"
-        >
+  <div class="adding">
+    <div class="adding-header">
+      <v-btn class="adding-header-btn" @click="addPerson">
         Добавить человека
-        </v-btn>
-      </div>
+      </v-btn>
+    </div>
 
-      <div v-if="people.length" class="adding-person-main">
-          <v-slide-x-reverse-transition group>
-          <div v-for="person in people" :key="person.id" class="person-container">
-            <v-text-field 
-            clearable 
-            hide-details="auto" 
-            v-model="person.name" 
-            label="Имя" 
-            
+    <div v-if="people.length" class="adding-main">
+      <v-slide-x-reverse-transition group>
+        <div
+          v-for="person in people"
+          :key="person.id"
+          class="adding-main-person"
+        >
+          <v-text-field
+            clearable
+            hide-details="auto"
+            v-model="person.name"
+            label="Имя"
             :append-icon="'mdi-delete'"
             @click:append="removePerson(person)"
-            ></v-text-field>
-          </div>
-        </v-slide-x-reverse-transition>
-        <!--:rules="rules"-->
-      </div>
-      <div v-else class="adding-person-main">
-        Список пуст
-      </div>
-     
-      <div class="adding-person-apply">
-        <v-btn class="apply-v-btn" variant="outlined" @click="apply">{{ checkname ? 'Чек' : 'Введите имена'}}</v-btn>
-      </div>
+          ></v-text-field>
+        </div>
+      </v-slide-x-reverse-transition>
+      <!--:rules="rules"-->
     </div>
+    <div v-else class="adding-main">Список пуст</div>
+
+    <div class="adding-apply">
+      <v-btn class="adding-apply-btn" @click="apply">{{
+        checkname ? "Чек" : "Введите имена"
+      }}</v-btn>
+    </div>
+  </div>
 </template>
 
 
 
 <style lang="scss">
-//@import '@/scss/style.scss';
-.adding-person-field {
-  text-align: center;
-  padding: 25px;
-  scrollbar-color: black #FFBD00;
+@import "@/scss/style.scss";
 
-  .adding-person-header {
-    border-bottom: 3px solid #0E141B;
-    border-radius: 15px 15px 0 0;
-    background-color: #FFBD00;
-    .adding-v-btn {
-      //@include btn(30vh, 25px);
-      width: 30vh;
-      margin: 25px;
+.adding {
+  @include field;
+  &-header {
+    @include header;
+    &-btn {
+      @include btn(30vh, 25px);
     }
   }
 
-  .adding-person-main {
-    border-radius: 0 0 15px 15px;
-    background-color: #FFBD00;
-    color: #0E141B;
-    padding: 10px;
-    max-height: 50vh;
-    width: 50vh;
-    overflow: scroll;
-    overflow-x:hidden;    
-
-    .person-container {
-      display: flex;
-      justify-content: space-evenly;
+  &-main {
+    @include main(none, 50vh, 10px);
+    @include scrollbar;
+    &-person {
       padding: 10px;
     }
   }
-  .adding-person-main::-webkit-scrollbar {
-    width: 5px;
-  }
-  .adding-person-main::-webkit-scrollbar-thumb {
-    border-radius: 5px;
-    background-color: #0E141B;
-  }
-  .adding-person-main::-webkit-scrollbar-track {
-    border-radius: 5px;
-    background-color: #FFBD00;
-    margin: 15px 0;
-    height: 90%;
-  }
 
-  .adding-person-apply{
-    margin-top:15px;
-    border-radius: 15px;
-    background-color: #FFBD00;
-    .apply-v-btn{
-      //@include btn(30vh, 10px);
-      margin: 10px;
-      width: 30vh;
+  &-apply {
+    @include apply;
+    &-btn {
+      @include btn(30vh, 10px);
     }
   }
-
 }
 </style>

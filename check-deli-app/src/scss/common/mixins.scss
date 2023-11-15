@@ -1,47 +1,74 @@
+@import '@/scss/common/variables.scss';
+
 @mixin field() {
-  //у calc нет padding
   text-align: center;
   padding: 25px;
   width: 50vw;
-  scrollbar-color: black #FFBD00;
 }
 
 @mixin header() {
-  //у рез есть padding
-  border-bottom: 3px solid #0E141B;
+  border-bottom: 3px solid $background-page-color;
   border-radius: 15px 15px 0 0;
-  background-color: #FFBD00;
+  background-color: $background-component-color;
+  color: $text-color;
 }
 
-@mixin main() {
-  //у калк есть min height
-  //другой max height
-  //другой padding
+@mixin main($minheight, $maxheight, $padding...) {
   border-radius: 0 0 15px 15px;
-  background-color: #FFBD00;
-  color: #0E141B;
-  padding: 10px;
-  max-height: 50vh;
-  width: 50vh;
+  background-color: $background-component-color;
+  color: $text-color;
+  padding: $padding;
+  max-height: $maxheight;
   overflow: scroll;
   overflow-x: hidden;
+  min-height: $minheight;
 }
 
 @mixin btn($width, $margin) {
   width: $width;
   margin: $margin;
+  background-color: $component-color;
+  color: $text-color;
+  font-size: 1.5rem;
 }
 
 @mixin apply() {
   margin-top: 15px;
   border-radius: 15px;
-  background-color: #FFBD00;
+  background-color: $background-component-color;
 }
 
 @mixin midresults() {
   margin-top: 15px;
   min-height: 50px;
   border-radius: 15px;
-  background-color: #FFBD00;
+  background-color: $background-component-color;
   padding: 10px;
+}
+
+@mixin card() {
+  border-radius: 15px;
+  margin-bottom: 15px;
+  background-color: $component-color;
+  color: $text-color;
+}
+
+@mixin scrollbar() {
+  scrollbar-color: $component-color $background-component-color;
+
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background-color: $scrollbar-thumb-color;
+  }
+
+  &::-webkit-scrollbar-track {
+    border-radius: 5px;
+    background-color: $scrollbar-track-color;
+    margin: 15px 0;
+    height: 90%;
+  }
 }

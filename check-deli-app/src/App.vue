@@ -1,5 +1,4 @@
 <script setup>
-
 </script>
 
 <template>
@@ -9,21 +8,21 @@
 </template>
 
 <style len="scss">
-@import '@/scss/style.scss';
+@import "@/scss/style.scss";
+@import "@/scss/common/variables.scss";
 body {
-  
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  background-color: #0E141B;
+  font-family: "Advent Pro", sans-serif;
+  font-size: 1.5rem;
+  color: #fff;
 }
 
-.wrap-container {
+/*а нужен ли*/
+/*.wrap-container {
   max-width: 1200px;
   margin: 0px auto;
   padding: 0px 15px;
-  scrollbar-color: black #FFBD00;
-}
-
-
+}*/
 </style>

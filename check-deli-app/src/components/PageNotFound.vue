@@ -7,31 +7,33 @@
 
 <script>
 export default {
-  data(){
-    return
-  }
-}
+  data() {
+    return;
+  },
+};
 </script>
 
 <style lang="scss">
+@import "@/scss/style.scss";
+
 .not-found {
-  color: #FFBD00;
-  text-align:center;
+  color: $component-color;
+  text-align: center;
   h2 {
-    font-size: 60px;
+    font-size: 6rem;
     animation: grow 1s ease-in-out infinite alternate;
   }
   p {
-    font-size: 18px;
+    font-size: 2rem;
   }
 }
 
 @keyframes grow {
-    0% {
-        transform: scale(1.0);
-    }
-    100% {
-        transform: scale(1.5);
-    }
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.5);
+  }
 }
 </style>
