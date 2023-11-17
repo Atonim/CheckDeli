@@ -106,9 +106,13 @@ export default {
       handler(newValue) {
         let initPrice = 0;
         for (let i = 0; i < this.bill.length; i++) {
-          initPrice += this.bill[i].price;
+          if (typeof this.bill[i].price === "number") {
+            //console.log(this.bill[i].price);
+            initPrice += this.bill[i].price;
+          }
         }
         this.totalPrice = initPrice;
+        //console.log(this.totalPrice);
       },
       deep: true,
     },

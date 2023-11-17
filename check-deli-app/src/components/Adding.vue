@@ -1,56 +1,5 @@
-<script>
-import { mapMutations } from "vuex";
-export default {
-  data() {
-    return {
-      people: [],
-      checkname: true,
-      //rules: [
-      //  value => !!value || 'Обязательное поле',
-      //],
-    };
-  },
-  methods: {
-    ...mapMutations({
-      setPeople: "people/setPeople",
-    }),
-    apply() {
-      this.checkNames();
-      if (this.people.length > 1 && this.checkname) {
-        this.setPeople(this.people);
-        this.$router.push("/calculator");
-      }
-    },
-    checkNames() {
-      this.people.forEach((person) => {
-        if (!person.name) {
-          this.checkname = false;
-          return;
-        }
-        this.checkname = true;
-      });
-    },
-    addPerson() {
-      const newPerson = {
-        id: Date.now(),
-        name: "",
-        debts: [],
-      };
-      this.people.push(newPerson);
-    },
-    removePerson(person) {
-      this.people = this.people.filter((p) => p.id !== person.id);
-    },
-    //inputName(event) {
-    //  this.person.name = event.target.value;
-    //}
-  },
-  computed: {},
-};
-</script>
-
 <template>
-  <div class="adding">
+  <v-form @submit.prevent class="adding">
     <div class="adding-header">
       <v-btn class="adding-header-btn" @click="addPerson">
         Добавить человека
@@ -79,12 +28,75 @@ export default {
     <div v-else class="adding-main">Список пуст</div>
 
     <div class="adding-apply">
-      <v-btn class="adding-apply-btn" @click="apply">{{
-        checkname ? "Чек" : "Введите имена"
-      }}</v-btn>
+      <v-btn type="submit" class="adding-apply-btn" @click="apply">
+        {{ this.buttontext[2] }}</v-btn
+      >
     </div>
-  </div>
+  </v-form>
 </template>
+
+
+
+<script>
+import { mapMutations } from "vuex";
+export default {
+  data() {
+    return {
+      people: [],
+      checkResult: null,
+      buttontext: [
+        "К чекам!",
+        "Заполните все поля!",
+        "Добавьте еще кого-нибудь!",
+      ],
+    };
+  },
+  methods: {
+    ...mapMutations({
+      setPeople: "people/setPeople",
+    }),
+    apply() {
+      if (this.checkNames()) {
+        this.setPeople(this.people);
+        this.$router.push("/calculator");
+      }
+    },
+    checkNames() {
+      if (this.people.length < 2) return false;
+      this.people.forEach((person) => {
+        if (!person.name) {
+          return false;
+        }
+      });
+      return true;
+    },
+    addPerson() {
+      const newPerson = {
+        id: Date.now(),
+        name: "",
+        debts: [],
+      };
+      this.people.push(newPerson);
+    },
+    removePerson(person) {
+      this.people = this.people.filter((p) => p.id !== person.id);
+    },
+    //inputName(event) {
+    //  this.person.name = event.target.value;
+    //}
+  },
+  computed: {
+    selectedButtonText: {
+      get() {
+        return;
+      },
+      set() {},
+    },
+  },
+};
+</script>
+
+
 
 
 
@@ -96,7 +108,7 @@ export default {
   &-header {
     @include header;
     &-btn {
-      @include btn(30vh, 25px);
+      @include btn(40vh, 25px);
     }
   }
 
@@ -111,7 +123,7 @@ export default {
   &-apply {
     @include apply;
     &-btn {
-      @include btn(30vh, 10px);
+      @include btn(40vh, 10px);
     }
   }
 }

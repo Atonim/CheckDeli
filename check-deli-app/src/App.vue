@@ -9,7 +9,7 @@
 
 <style len="scss">
 @import "@/scss/style.scss";
-@import "@/scss/common/variables.scss";
+
 body {
   margin: 0;
   padding: 0;
