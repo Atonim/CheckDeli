@@ -1,5 +1,5 @@
 <template>
-  <v-form @submit.prevent class="adding">
+  <v-form @submit="handleSubmit($event)" class="adding">
     <div class="adding-header">
       <v-btn class="adding-header-btn" @click="addPerson">
         Добавить человека
@@ -23,13 +23,17 @@
           ></v-text-field>
         </div>
       </v-slide-x-reverse-transition>
-      <!--:rules="rules"-->
     </div>
     <div v-else class="adding-main">Список пуст</div>
 
     <div class="adding-apply">
-      <v-btn type="submit" class="adding-apply-btn" @click="apply">
-        {{ this.buttontext[2] }}</v-btn
+      <v-btn
+        type="submit"
+        @keydown.enter="handleSubmit"
+        class="adding-apply-btn"
+        :class="{ animated: this.btnAnimated }"
+      >
+        {{ this.selectedButtonText }}</v-btn
       >
     </div>
   </v-form>
@@ -43,32 +47,36 @@ export default {
   data() {
     return {
       people: [],
-      checkResult: null,
-      buttontext: [
-        "К чекам!",
-        "Заполните все поля!",
-        "Добавьте еще кого-нибудь!",
-      ],
+      errorLength: false,
+      errorContent: false,
+      btnAnimated: false,
     };
   },
   methods: {
     ...mapMutations({
       setPeople: "people/setPeople",
     }),
-    apply() {
-      if (this.checkNames()) {
-        this.setPeople(this.people);
-        this.$router.push("/calculator");
-      }
+    handleSubmit(e) {
+      e.preventDefault();
+      this.validation();
+      if (!this.errorLength && !this.errorContent) this.apply();
+      else this.triggerErrorButton();
     },
-    checkNames() {
-      if (this.people.length < 2) return false;
+    validation() {
+      this.people.length < 2
+        ? (this.errorLength = true)
+        : (this.errorLength = false);
+      this.errorContent = false;
       this.people.forEach((person) => {
-        if (!person.name) {
-          return false;
+        if (person.name === "") {
+          this.errorContent = true;
+          return;
         }
       });
-      return true;
+    },
+    apply() {
+      this.setPeople(this.people);
+      this.$router.push("/calculator");
     },
     addPerson() {
       const newPerson = {
@@ -81,16 +89,16 @@ export default {
     removePerson(person) {
       this.people = this.people.filter((p) => p.id !== person.id);
     },
-    //inputName(event) {
-    //  this.person.name = event.target.value;
-    //}
+    triggerErrorButton() {
+      this.btnAnimated = true;
+      setTimeout(() => (this.btnAnimated = false), 1000);
+    },
   },
   computed: {
-    selectedButtonText: {
-      get() {
-        return;
-      },
-      set() {},
+    selectedButtonText() {
+      if (this.errorContent) return "Заполните поля!";
+      else if (this.errorLength) return "Нужно больше людей!";
+      else return "К чекам!";
     },
   },
 };
@@ -108,7 +116,7 @@ export default {
   &-header {
     @include header;
     &-btn {
-      @include btn(40vh, 25px);
+      @include btn(none, 25px);
     }
   }
 
@@ -123,8 +131,10 @@ export default {
   &-apply {
     @include apply;
     &-btn {
-      @include btn(40vh, 10px);
+      @include btn(none, 15px);
     }
   }
+
+  @include btnanimation;
 }
 </style>

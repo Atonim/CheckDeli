@@ -17,9 +17,10 @@
   &-title {
     color: $text-color;
     text-align: center;
-    margin-bottom: 30px;
+    margin: 0 25px 50px 25px;
     font-family: "Advent Pro", sans-serif;
-    font-size: 6rem;
+    font-size: calc(48px + 2vw);
+    line-height: 0.9em;
   }
   &-btn {
     @include btn(none, none);

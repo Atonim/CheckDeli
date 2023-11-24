@@ -3,8 +3,8 @@
 
 @mixin field() {
   text-align: center;
-  padding: 25px;
-  width: 50vw;
+  padding: 15px;
+  min-width: 40vw;
 }
 
 @mixin header() {
@@ -26,17 +26,23 @@
 }
 
 @mixin btn($width, $margin) {
-  width: $width;
+  //min-width: 40vw;
   margin: $margin;
   background-color: $component-color;
   color: $text-color;
-  font-size: 1.5rem;
+
+  font-size: 18px;
+  //font-size: 1.5rem;
+  word-break: break-all;
+  word-wrap: break-word;
 }
 
 @mixin apply() {
   margin-top: 15px;
   border-radius: 15px;
   background-color: $background-component-color;
+  word-break: break-all;
+  word-wrap: break-word;
 }
 
 @mixin midresults() {
@@ -71,5 +77,31 @@
     background-color: $scrollbar-track-color;
     margin: 15px 0;
     height: 90%;
+  }
+}
+
+@mixin btnanimation() {
+  .animated {
+    animation: 1s ease-in-out forwards trambling-animation;
+    background: red;
+  }
+
+  @keyframes trambling-animation {
+
+    0%,
+    50%,
+    100% {
+      transform: translateX(0);
+    }
+
+    10%,
+    30% {
+      transform: translateX(-5px);
+    }
+
+    20%,
+    40% {
+      transform: translateX(5px);
+    }
   }
 }

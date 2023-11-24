@@ -1,15 +1,3 @@
-<script>
-import { mapGetters } from "vuex";
-export default {
-  computed: {
-    ...mapGetters({
-      allPeople: "people/allPeople",
-    }),
-  },
-};
-</script>
-
-
 <template>
   <div class="result">
     <div class="result-header">
@@ -41,6 +29,19 @@ export default {
     </div>
   </div>
 </template>
+
+<script>
+import { mapGetters } from "vuex";
+export default {
+  computed: {
+    ...mapGetters({
+      allPeople: "people/allPeople",
+    }),
+  },
+};
+</script>
+
+
 
 <style lang="scss">
 @import "@/scss/style.scss";

@@ -1,128 +1,5 @@
-<script>
-import { mapState, mapGetters, mapMutations } from "vuex";
-export default {
-  data() {
-    return {
-      totalPrice: 0,
-      isAllCustomersIncluded: false,
-      bill: [],
-    };
-  },
-  computed: {
-    ...mapState({
-      people: (state) => state.people.people,
-    }),
-    ...mapGetters({
-      allPeople: "people/allPeople",
-    }),
-
-    //updateTotalPrice(){
-    //  if (this.bill.length){
-    //    const initialValue = 0;
-    //    return this.bill.reduce((accumulator, currentValue) => accumulator.price + currentValue.price, initialValue);
-    //  }
-    //  else return 0;
-    //}
-  },
-  methods: {
-    ...mapMutations({
-      setDebts: "people/setDebts",
-    }),
-    addPosition() {
-      const newPosition = {
-        id: Date.now(),
-        title: "",
-        price: null,
-        payer: null,
-        customers: [],
-      };
-      this.bill.push(newPosition);
-    },
-    removePosition(position) {
-      this.bill = this.bill.filter((p) => p.id !== position.id);
-    },
-    addedAllCustomers(position) {
-      return position.customers.length === this.allPeople.length;
-    },
-    addedSomeCustomers(position) {
-      return position.customers.length > 0;
-    },
-    //addCustomer(event, person, position){
-    //  if (!position.customers.map(c => c.id).includes(person.id)){
-    //    position.customers.push(person);
-    //  }
-    //},
-    //removeCustomer(event, person, position){
-    //  position.customers = position.customers.filter(p => p.id !== person.id)
-    //},
-    //addAllCustomers(event, position){
-    //  position.customers = [];
-    //  this.allPeople.forEach((person) => {
-    //    position.customers.push(person);
-    //  });
-    //  this.isAllCustomersIncluded = true;
-    //},
-    //removeAllCustomers(event, position){
-    //  position.customers = [];
-    //  this.isAllCustomersIncluded = false;
-    //},
-    apply() {
-      //for (let i = 0; i < this.bill.length;i++){
-
-      //  for (let j = 0; j < this.allPeople.length; j++) {
-
-      //    if (this.bill[i].customers.includes(this.allPeople[j])){
-      //      //console.log('in bill');
-      //      const debtName = this.bill[i].payer;
-      //      const debtPrice = this.bill[i].price / this.bill[i].customers.length;
-      //      const newDebt = {
-      //        id: Date.now(),
-      //        name: debtName,
-      //        price: debtPrice
-      //      }
-      //      console.log('---------');
-      //      console.log(j);
-      //      console.log(newDebt);
-      //      console.log('---------');
-      //      this.setDebts(JSON.stringify(this.newDebt));
-      //      //person.debts.push(newDebt);
-      //      //console.log(person);
-      //    }
-      //  }
-      //}
-      this.setDebts(this.bill);
-      this.$router.push("/result");
-    },
-    toggle(event, position) {
-      if (this.addedAllCustomers(position)) {
-        position.customers = [];
-      } else {
-        position.customers = this.allPeople.slice();
-      }
-    },
-  },
-  watch: {
-    bill: {
-      handler(newValue) {
-        let initPrice = 0;
-        for (let i = 0; i < this.bill.length; i++) {
-          if (typeof this.bill[i].price === "number") {
-            //console.log(this.bill[i].price);
-            initPrice += this.bill[i].price;
-          }
-        }
-        this.totalPrice = initPrice;
-        //console.log(this.totalPrice);
-      },
-      deep: true,
-    },
-  },
-};
-</script>
-
-
 <template>
-  <div class="calculator">
+  <v-form @submit="handleSubmit($event)" class="calculator">
     <div class="calculator-header">
       <v-btn class="calculator-header-btn" @click="addPosition">
         Добавить позицию
@@ -130,40 +7,46 @@ export default {
     </div>
 
     <div class="calculator-main">
-      <v-slide-x-reverse-transition group>
-        <div v-if="this.bill.length">
+      <div v-if="this.bill.length">
+        <v-slide-x-reverse-transition group>
           <div v-for="position in bill" :key="position.id">
             <v-container>
               <v-row>
                 <v-col cols="12" md="12">
                   <v-expansion-panels variant="accordion">
                     <v-expansion-panel class="calculator-main-panel">
-                      <v-expansion-panel-title>
-                        <v-col cols="12" md="6">
-                          <v-text-field
-                            @click.native.stop
-                            clearable
-                            hide-details="auto"
-                            v-model="position.title"
-                            label="Название"
-                          >
-                          </v-text-field>
-                        </v-col>
+                      <v-expansion-panel-title
+                        class="calculator-main-panel-title"
+                      >
+                        <v-row class="calculator-main-panel-title-row">
+                          <v-col cols="12" md="6">
+                            <v-text-field
+                              @click.native.stop
+                              clearable
+                              hide-details="auto"
+                              v-model="position.title"
+                              label="Название"
+                            >
+                            </v-text-field>
+                          </v-col>
 
-                        <v-col cols="12" md="6">
-                          <v-text-field
-                            clearable
-                            hide-details="auto"
-                            @click.native.stop
-                            type="number"
-                            v-model.number="position.price"
-                            label="Цена"
-                          >
-                          </v-text-field>
-                        </v-col>
+                          <v-col cols="12" md="6">
+                            <v-text-field
+                              clearable
+                              hide-details="auto"
+                              @click.native.stop
+                              v-model.number="position.price"
+                              label="Цена"
+                            >
+                            </v-text-field>
+                          </v-col>
+                        </v-row>
                       </v-expansion-panel-title>
-                      <v-expansion-panel-text>
-                        <v-row>
+
+                      <v-expansion-panel-text
+                        class="calculator-main-panel-text"
+                      >
+                        <v-row class="calculator-main-panel-text-row">
                           <v-col cols="12" md="6">
                             <v-select
                               clearable
@@ -230,10 +113,9 @@ export default {
               </v-row>
             </v-container>
           </div>
-        </div>
-
-        <div v-else>Список пуст</div>
-      </v-slide-x-reverse-transition>
+        </v-slide-x-reverse-transition>
+      </div>
+      <div v-else>Список пуст</div>
     </div>
 
     <div class="calculator-results">
@@ -242,10 +124,120 @@ export default {
     </div>
 
     <div class="calculator-apply">
-      <v-btn class="calculator-apply-btn" @click="apply">Рассчитать!</v-btn>
+      <v-btn
+        type="submit"
+        @keydown.enter="handleSubmit"
+        class="calculator-apply-btn"
+        :class="{ animated: this.btnAnimated }"
+        >{{ this.selectedButtonText }}</v-btn
+      >
     </div>
-  </div>
+  </v-form>
 </template>
+
+<script>
+import { mapState, mapGetters, mapMutations } from "vuex";
+export default {
+  data() {
+    return {
+      totalPrice: 0,
+      bill: [],
+      errorLength: false,
+      errorContent: false,
+      btnAnimated: false,
+    };
+  },
+  computed: {
+    ...mapState({
+      people: (state) => state.people.people,
+    }),
+    ...mapGetters({
+      allPeople: "people/allPeople",
+    }),
+    selectedButtonText() {
+      if (this.errorContent) return "Заполните поля!";
+      else if (this.errorLength) return "Добавьте позицию!";
+      else return "Рассчитать!";
+    },
+  },
+  methods: {
+    ...mapMutations({
+      setDebts: "people/setDebts",
+    }),
+    handleSubmit(e) {
+      console.log("fdfd");
+      e.preventDefault();
+      this.validation();
+      if (!this.errorLength && !this.errorContent) this.apply();
+      else this.triggerErrorButton();
+    },
+    validation() {
+      console.log("fdfdfdf");
+      this.bill.length ? (this.errorLength = false) : (this.errorLength = true);
+      this.errorContent = false;
+      this.bill.forEach((position) => {
+        if (
+          position.title === "" ||
+          !position.price ||
+          !position.payer ||
+          !position.customers.length
+        ) {
+          this.errorContent = true;
+          return;
+        }
+      });
+    },
+    addPosition() {
+      const newPosition = {
+        id: Date.now(),
+        title: "",
+        price: null,
+        payer: null,
+        customers: [],
+      };
+      this.bill.push(newPosition);
+    },
+    removePosition(position) {
+      this.bill = this.bill.filter((p) => p.id !== position.id);
+    },
+    addedAllCustomers(position) {
+      return position.customers.length === this.allPeople.length;
+    },
+    addedSomeCustomers(position) {
+      return position.customers.length > 0;
+    },
+    apply() {
+      this.setDebts(this.bill);
+      this.$router.push("/result");
+    },
+    toggle(event, position) {
+      if (this.addedAllCustomers(position)) {
+        position.customers = [];
+      } else {
+        position.customers = this.allPeople.slice();
+      }
+    },
+    triggerErrorButton() {
+      this.btnAnimated = true;
+      setTimeout(() => (this.btnAnimated = false), 1000);
+    },
+  },
+  watch: {
+    bill: {
+      handler(newValue) {
+        let initPrice = 0;
+        for (let i = 0; i < this.bill.length; i++) {
+          if (typeof this.bill[i].price === "number") {
+            initPrice += this.bill[i].price;
+          }
+        }
+        this.totalPrice = initPrice;
+      },
+      deep: true,
+    },
+  },
+};
+</script>
 
 <style lang="scss">
 @import "@/scss/style.scss";
@@ -264,6 +256,16 @@ export default {
     @include scrollbar;
     &-panel {
       background-color: $component-color;
+      &-title {
+        &-row {
+          padding: 0 25px;
+        }
+      }
+      &-text {
+        &-row {
+          padding: 0 47px 0 25px;
+        }
+      }
     }
   }
 
@@ -277,5 +279,7 @@ export default {
       @include btn(30vh, 10px);
     }
   }
+
+  @include btnanimation;
 }
 </style>

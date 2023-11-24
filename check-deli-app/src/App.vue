@@ -20,9 +20,9 @@ body {
 }
 
 /*а нужен ли*/
-/*.wrap-container {
+.wrap-container {
   max-width: 1200px;
   margin: 0px auto;
   padding: 0px 15px;
-}*/
+}
 </style>
