@@ -11,6 +11,6 @@ export default defineConfig({
     ],
   },
   plugins: [vue(),
-  vuetify({ styles: 'expose' })
+  vuetify({ configFile: 'src/scss/style.scss' })
   ],
 })

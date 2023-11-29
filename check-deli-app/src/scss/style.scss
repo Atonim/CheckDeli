@@ -1,5 +1,4 @@
-@use 'vuetify' with ($utilities: false,
-  $color-pack: false,
+@use 'vuetify' with ($color-pack: false,
 );
 @import '@/scss/common/mixins.scss';
 @import '@/scss/common/variables.scss';
