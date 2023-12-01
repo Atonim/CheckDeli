@@ -15,15 +15,19 @@ body {
   padding: 0;
   box-sizing: border-box;
   font-family: "Advent Pro", sans-serif;
-  font-size: 1.5rem;
+  /*font-size: 1.5rem;*/
   color: #fff;
 }
 
 /*а нужен ли*/
 .wrap-container {
-  max-width: 1200px;
+  max-width: 767px;
   margin: 0px auto;
   padding: 15px;
+}
+
+.v-input_details {
+  display: none;
 }
 </style>
 

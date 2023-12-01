@@ -1,7 +1,7 @@
 <template>
   <v-form @submit="handleSubmit($event)" class="calculator">
     <div class="calculator-header">
-      <v-btn class="calculator-header-btn" @click="addPosition">
+      <v-btn block class="calculator-header-btn" @click="addPosition">
         Добавить позицию
       </v-btn>
     </div>
@@ -24,7 +24,7 @@
                               @click.native.stop
                               clearable
                               hide-details="auto"
-                              v-model="position.title"
+                              v-model.trim="position.title"
                               label="Название"
                             >
                             </v-text-field>
@@ -55,13 +55,13 @@
                               :item-props="true"
                               item-title="name"
                               item-value="id"
-                              v-model="position.payer"
+                              v-model.trim="position.payer"
                             >
                             </v-select>
                           </v-col>
                           <v-col cols="12" md="6">
                             <v-select
-                              v-model="position.customers"
+                              v-model.trim="position.customers"
                               :items="getPeople"
                               item-title="name"
                               item-value="id"
@@ -126,6 +126,7 @@
 
     <div class="calculator-apply">
       <v-btn
+        block
         type="submit"
         @keydown.enter="handleSubmit"
         class="calculator-apply-btn"
@@ -272,7 +273,7 @@ export default {
   &-header {
     @include header;
     &-btn {
-      @include btn(30vh, 25px);
+      @include btn(none, none);
     }
   }
 
@@ -283,20 +284,22 @@ export default {
       background-color: $component-color;
       &-title {
         &-row {
-          padding: 0 25px;
+          padding: 0 25px 0 0;
         }
       }
       &-text {
         &-row {
-          padding: 10px 47px 0 25px;
+          padding: 10px 47px 0 0;
         }
         &-btn {
-          @include btn(30vh, 0);
+          @include btn(none, none);
         }
       }
     }
   }
-
+  //.v-input_details {
+  //  display: none !important;
+  //}
   &-results {
     @include midresults;
   }
@@ -304,7 +307,7 @@ export default {
   &-apply {
     @include apply;
     &-btn {
-      @include btn(30vh, 10px);
+      @include btn(none, none);
     }
   }
 

@@ -20,8 +20,8 @@
     text-align: center;
     margin: 0 25px 50px 25px;
     font-family: "Advent Pro", sans-serif;
-    font-size: calc(48px + 2vw);
     line-height: 0.9em;
+    @include adaptiveFont(96, 40);
   }
   &-btn {
     @include btn(none, none);

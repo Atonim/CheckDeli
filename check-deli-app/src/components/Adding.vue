@@ -1,7 +1,7 @@
 <template>
   <v-form @submit="handleSubmit($event)" class="adding">
     <div class="adding-header">
-      <v-btn class="adding-header-btn" @click="addPerson">
+      <v-btn class="adding-header-btn" block @click="addPerson">
         Добавить человека
       </v-btn>
     </div>
@@ -16,7 +16,7 @@
           <v-text-field
             clearable
             hide-details="auto"
-            v-model="person.name"
+            v-model.trim="person.name"
             label="Имя"
             :append-icon="'mdi-delete'"
             @click:append="removePerson(person)"
@@ -28,6 +28,7 @@
 
     <div class="adding-apply">
       <v-btn
+        block
         type="submit"
         @keydown.enter="handleSubmit"
         class="adding-apply-btn"
@@ -135,7 +136,7 @@ export default {
   &-header {
     @include header;
     &-btn {
-      @include btn(none, 25px);
+      @include btn(none, none);
     }
   }
 
@@ -150,7 +151,7 @@ export default {
   &-apply {
     @include apply;
     &-btn {
-      @include btn(none, 15px);
+      @include btn(none, none);
     }
   }
 

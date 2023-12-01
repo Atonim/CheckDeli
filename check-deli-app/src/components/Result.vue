@@ -23,7 +23,7 @@
     </div>
 
     <div class="result-apply">
-      <v-btn class="result-apply-btn" @click="apply">Новый чек</v-btn>
+      <v-btn block class="result-apply-btn" @click="apply">Новый чек</v-btn>
     </div>
   </div>
 </template>
@@ -69,7 +69,7 @@ export default {
   &-apply {
     @include apply;
     &-btn {
-      @include btn(30vh, 10px);
+      @include btn(none, none);
     }
   }
 }
