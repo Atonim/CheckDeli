@@ -47,16 +47,5 @@ const router = createRouter({
   routes,
 })
 
-//router.beforeEach((to, from, next) => {
-//  console.log()
-//  if (!localStorage.getItem('bill') && store.getters['people/getPeople'] && to.name === "result") {
-//    next({ name: 'calculator' })
-//  }
-//  else if (!localStorage.getItem('bill') && !store.getters['people/getPeople'] && (to.name === "result" || to.name === "calculator")) {
-//    next({ name: 'adding' })
-//  }
-//  else
-//    next();
-//})
 
 export default router;

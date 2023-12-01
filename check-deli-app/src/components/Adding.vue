@@ -87,7 +87,6 @@ export default {
     },
     apply() {
       this.setPeople(this.people);
-      //localStorage.setItem("people", JSON.stringify(this.people));
       this.$router.push("/calculator");
     },
     addPerson() {
@@ -112,15 +111,6 @@ export default {
       }, 2000);
     },
   },
-  //computed: {
-  //  selectedButtonText() {
-  //    if (this.errorContent) {
-  //      setTimeout(() => (this.btnAnimated = false), 1000);
-  //      return "Заполните поля!";
-  //    } else if (this.errorLength) return "Нужно больше людей!";
-  //    else return "К чекам!";
-  //  },
-  //},
 };
 </script>
 
@@ -141,7 +131,7 @@ export default {
   }
 
   &-main {
-    @include main(none, 50vh, 10px);
+    @include main(none, 70vh, 10px);
     @include scrollbar;
     &-person {
       padding: 10px;

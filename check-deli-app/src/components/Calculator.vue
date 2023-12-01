@@ -211,9 +211,6 @@ export default {
     },
     apply() {
       localStorage.setItem("bill", JSON.stringify(this.bill));
-      console.log("-------bill-----");
-      console.log(this.bill);
-      console.log("-------bill-----");
       this.setDebts(this.bill);
 
       this.$router.push("/result");
@@ -236,17 +233,9 @@ export default {
     },
   },
   computed: {
-    //...mapState({
-    //  people: (state) => state.people.people,
-    //}),
     ...mapGetters({
       getPeople: "people/getPeople",
     }),
-    //selectedButtonText() {
-    //  if (this.errorContent) return "Заполните поля!";
-    //  else if (this.errorLength) return "Добавьте позицию!";
-    //  else return "Рассчитать!";
-    //},
   },
   watch: {
     bill: {
@@ -278,7 +267,7 @@ export default {
   }
 
   &-main {
-    @include main(30vh, 70vh, 15px, 0);
+    @include main(30vh, 57vh, 15px, 0);
     @include scrollbar;
     &-panel {
       background-color: $component-color;
