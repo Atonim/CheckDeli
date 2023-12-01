@@ -7,7 +7,7 @@
     <div class="result-main">
       <v-slide-x-reverse-transition group>
         <v-card
-          v-for="person in this.allPeople"
+          v-for="person in this.getPeople"
           :key="person.id"
           class="result-main-card"
         >
@@ -23,9 +23,7 @@
     </div>
 
     <div class="result-apply">
-      <v-btn class="result-apply-btn" @click="this.$router.push('/')"
-        >Новый чек</v-btn
-      >
+      <v-btn class="result-apply-btn" @click="apply">Новый чек</v-btn>
     </div>
   </div>
 </template>
@@ -35,8 +33,14 @@ import { mapGetters } from "vuex";
 export default {
   computed: {
     ...mapGetters({
-      allPeople: "people/allPeople",
+      getPeople: "people/getPeople",
     }),
+  },
+  methods: {
+    apply() {
+      localStorage.clear();
+      this.$router.push("/adding");
+    },
   },
 };
 </script>

@@ -52,6 +52,15 @@ export default {
       btnAnimated: false,
     };
   },
+  mounted() {
+    if (localStorage.getItem("people")) {
+      try {
+        this.people = JSON.parse(localStorage.getItem("people"));
+      } catch (e) {
+        localStorage.removeItem("people");
+      }
+    }
+  },
   methods: {
     ...mapMutations({
       setPeople: "people/setPeople",
@@ -76,6 +85,7 @@ export default {
     },
     apply() {
       this.setPeople(this.people);
+      //localStorage.setItem("people", JSON.stringify(this.people));
       this.$router.push("/calculator");
     },
     addPerson() {

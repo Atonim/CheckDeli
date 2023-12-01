@@ -1,33 +1,44 @@
 export const people = {
   state: () => ({
-    people: []
+    people: JSON.parse(localStorage.getItem('people'))
   }),
   getters: {
-    allPeople(state) {
+    getPeople(state) {
       return state.people;
     }
   },
   mutations: {
     setPeople(state, people) {
       state.people = people;
+      localStorage.setItem("people", JSON.stringify(people));
     },
-    setDebts(state, bill) {
-      this.bill = bill;
+    addNewDebt(state, payload) {
+      this.currentCustomer = payload.currentCustomer;
+      this.currentBillPayer = payload.currentBillPayer;
+      this.debtPrice = payload.debtPrice;
 
-      const addNewDebt = (currentPerson, currentBillPayer, debtPrice) => {
-        const existedDebt = currentPerson.debts.find(debt => debt.personId === currentBillPayer.id);
-        if (existedDebt) {
-          existedDebt.price += debtPrice;
-        } else {
-          const newDebt = {
-            debtId: Date.now(),
-            name: currentBillPayer.name,
-            personId: currentBillPayer.id,
-            price: debtPrice
-          }
-          currentPerson.debts.push(newDebt);
+      const existedDebt = this.currentCustomer.debts?.find(debt => debt.personId === this.currentBillPayer.id);
+      if (existedDebt) {
+        existedDebt.price = (Number(existedDebt.price) + Number(this.debtPrice)).toFixed(2);
+      } else {
+        const newDebt = {
+          debtId: Date.now(),
+          name: this.currentBillPayer.name,
+          personId: this.currentBillPayer.id,
+          price: this.debtPrice
         }
+        this.currentCustomer.debts.push(newDebt);
       }
+    },
+    removeAllDebts(state) {
+      console.log(state.people)
+      state.people = JSON.parse(localStorage.getItem('people'));
+      console.log(state.people)
+    }
+  },
+  actions: {
+    setDebts({ commit, state }, bill) {
+      this.bill = bill;
 
       for (let i = 0; i < this.bill.length; i++) {
         for (let j = 0; j < state.people.length; j++) {
@@ -35,39 +46,61 @@ export const people = {
           const currentBill = this.bill[i];
           const currentBillPayerId = this.bill[i].payer;
           const currentBillPayer = state.people.find(person => person.id === currentBillPayerId);
-          const currentPerson = state.people[j];
-          const currentPersonId = state.people[j].id;
+          const currentCustomer = state.people[j];
+          const currentCustomerId = state.people[j].id;
 
-          if ((currentBillPayerId !== currentPersonId) && (currentBill.customers.includes(currentPerson))) {
+          const mutualPayerDebt = currentBillPayer.debts.find(debt => debt.personId === currentCustomerId);
 
-            let debtPrice = (currentBill.price / currentBill.customers.length).toFixed(2);
-            const mutualDebt = currentBillPayer.debts.find(debt => debt.personId === currentPersonId);
+          console.log('рофл');
+          console.log(currentBillPayerId, currentCustomerId, currentBill.customers, currentCustomer);
+          //console.log(currentBill.customers.includes(currentCustomer));
 
-            if (mutualDebt) {
+          if (currentBillPayerId === currentCustomerId) continue;
+          if (!currentBill.customers.includes(currentCustomerId) && !currentBill.customers.some(customer => customer.id === currentCustomerId)) continue
 
-              if (debtPrice > mutualDebt.price) {
+          let debtPrice = (currentBill.price / currentBill.customers.length).toFixed(2);
 
-                currentBillPayer.debts = currentBillPayer.debts.filter(debt => debt.debtId !== mutualDebt.debtId);
-                debtPrice -= mutualDebt.price;
+          console.log('ало');
+          if (mutualPayerDebt) {
+            console.log('-----------');
+            console.log(mutualPayerDebt, currentBillPayer, debtPrice);
+            console.log('-----------');
+            if (debtPrice > mutualPayerDebt.price) {
+              //убираем долг у платителя
+              currentBillPayer.debts = currentBillPayer.debts.filter(debt => debt.debtId !== mutualPayerDebt.debtId);
+              debtPrice = (debtPrice - mutualPayerDebt.price).toFixed(2);
+              commit('addNewDebt', {
+                currentCustomer,
+                currentBillPayer,
+                debtPrice
+              });
 
-                addNewDebt(currentPerson, currentBillPayer, debtPrice);
-
-              } else if (debtPrice === mutualDebt.price) {
-                person.debts = person.debts.filter(debt => debt.debtId !== mutualDebt.debtId);
-              } else {
-                mutualDebt.price -= debtPrice;
-              }
-            }
-            else {
-              addNewDebt(currentPerson, currentBillPayer, debtPrice);
+            } else if (debtPrice === mutualPayerDebt.price) {
+              currentBillPayer.debts = currentBillPayer.debts.filter(debt => debt.debtId !== mutualPayerDebt.debtId);
+            } else {
+              mutualPayerDebt.price = (mutualPayerDebt.price - debtPrice).toFixed(2);
             }
           }
+          else {
+            commit('addNewDebt', {
+              currentCustomer,
+              currentBillPayer,
+              debtPrice
+            });
+
+          }
+
         }
       }
-    },
-  },
-  actions: {
-
+    }
   },
   namespaced: true
+  //watch: {
+  //  people: {
+  //    handler(newState) {
+  //      localStorage.setItem("people", JSON.stringify(state.people));
+  //    },
+  //    deep: true
+  //  }
+  //}
 }

@@ -51,7 +51,7 @@
                             <v-select
                               clearable
                               label="Кто заплатил?"
-                              :items="allPeople"
+                              :items="getPeople"
                               :item-props="true"
                               item-title="name"
                               item-value="id"
@@ -62,9 +62,10 @@
                           <v-col cols="12" md="6">
                             <v-select
                               v-model="position.customers"
-                              :items="allPeople"
+                              :items="getPeople"
                               item-title="name"
-                              label="Кто ел/пил?"
+                              item-value="id"
+                              label="Кто делит?"
                               multiple
                             >
                               <template v-slot:prepend-item>
@@ -136,7 +137,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters, mapMutations } from "vuex";
+import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
 export default {
   data() {
     return {
@@ -147,38 +148,37 @@ export default {
       btnAnimated: false,
     };
   },
-  computed: {
-    ...mapState({
-      people: (state) => state.people.people,
-    }),
-    ...mapGetters({
-      allPeople: "people/allPeople",
-    }),
-    selectedButtonText() {
-      if (this.errorContent) return "Заполните поля!";
-      else if (this.errorLength) return "Добавьте позицию!";
-      else return "Рассчитать!";
-    },
+  mounted() {
+    this.removeAllDebts();
+    if (localStorage.getItem("bill")) {
+      try {
+        this.bill = JSON.parse(localStorage.getItem("bill"));
+      } catch (e) {
+        localStorage.removeItem("bill");
+      }
+    }
   },
   methods: {
     ...mapMutations({
+      removeAllDebts: "people/removeAllDebts",
+    }),
+    ...mapActions({
       setDebts: "people/setDebts",
     }),
     handleSubmit(e) {
-      console.log("fdfd");
       e.preventDefault();
       this.validation();
       if (!this.errorLength && !this.errorContent) this.apply();
       else this.triggerErrorButton();
     },
     validation() {
-      console.log("fdfdfdf");
       this.bill.length ? (this.errorLength = false) : (this.errorLength = true);
       this.errorContent = false;
       this.bill.forEach((position) => {
         if (
           position.title === "" ||
           !position.price ||
+          isNaN(position.price) ||
           !position.payer ||
           !position.customers.length
         ) {
@@ -200,26 +200,45 @@ export default {
     removePosition(position) {
       this.bill = this.bill.filter((p) => p.id !== position.id);
     },
+    //не работает если added переименовать в is/are, чтобы лучше отразить смысл - странное поведение
     addedAllCustomers(position) {
-      return position.customers.length === this.allPeople.length;
+      return position.customers.length === this.getPeople.length;
     },
     addedSomeCustomers(position) {
       return position.customers.length > 0;
     },
     apply() {
+      localStorage.setItem("bill", JSON.stringify(this.bill));
+      console.log("-------bill-----");
+      console.log(this.bill);
+      console.log("-------bill-----");
       this.setDebts(this.bill);
+
       this.$router.push("/result");
     },
     toggle(event, position) {
       if (this.addedAllCustomers(position)) {
         position.customers = [];
       } else {
-        position.customers = this.allPeople.slice();
+        position.customers = this.getPeople;
       }
     },
     triggerErrorButton() {
       this.btnAnimated = true;
       setTimeout(() => (this.btnAnimated = false), 1000);
+    },
+  },
+  computed: {
+    //...mapState({
+    //  people: (state) => state.people.people,
+    //}),
+    ...mapGetters({
+      getPeople: "people/getPeople",
+    }),
+    selectedButtonText() {
+      if (this.errorContent) return "Заполните поля!";
+      else if (this.errorLength) return "Добавьте позицию!";
+      else return "Рассчитать!";
     },
   },
   watch: {

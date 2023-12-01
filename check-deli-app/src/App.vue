@@ -1,11 +1,11 @@
-<script setup>
-</script>
-
 <template>
   <div class="wrap-container">
     <router-view></router-view>
   </div>
 </template>
+
+<script>
+</script>
 
 <style len="scss">
 @import "@/scss/style.scss";
@@ -26,3 +26,5 @@ body {
   padding: 0px 15px;
 }
 </style>
+
+
