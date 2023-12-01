@@ -14,6 +14,7 @@
   min-width: 40vw;
   padding: 15px;
   border-radius: 15px;
+
   &-title {
     color: $text-color;
     text-align: center;

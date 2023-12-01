@@ -14,8 +14,8 @@
 .not-found {
   text-align: center;
   h2 {
+    @include growingAnimation();
     font-size: 6rem;
-    animation: grow 1s ease-in-out infinite alternate;
     color: $component-color;
   }
   p {
@@ -24,15 +24,6 @@
   }
   &-btn {
     @include btn(none, 25px);
-  }
-}
-
-@keyframes grow {
-  0% {
-    transform: scale(1);
-  }
-  100% {
-    transform: scale(1.5);
   }
 }
 </style>

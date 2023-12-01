@@ -23,7 +23,7 @@ body {
 .wrap-container {
   max-width: 1200px;
   margin: 0px auto;
-  padding: 0px 15px;
+  padding: 15px;
 }
 </style>
 

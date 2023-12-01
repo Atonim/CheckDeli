@@ -100,7 +100,7 @@
                             <v-btn
                               block
                               variant="outlined"
-                              class="remove"
+                              class="calculator-main-panel-text-btn"
                               @click="removePosition(position)"
                             >
                               Удалить позицию
@@ -146,6 +146,7 @@ export default {
       errorLength: false,
       errorContent: false,
       btnAnimated: false,
+      selectedButtonText: "Рассчитать!",
     };
   },
   mounted() {
@@ -225,7 +226,12 @@ export default {
     },
     triggerErrorButton() {
       this.btnAnimated = true;
-      setTimeout(() => (this.btnAnimated = false), 1000);
+      if (this.errorContent) this.selectedButtonText = "Заполните поля!";
+      else if (this.errorLength) this.selectedButtonText = "Добавьте позицию!";
+      setTimeout(() => {
+        this.btnAnimated = false;
+        this.selectedButtonText = "Рассчитать!";
+      }, 2000);
     },
   },
   computed: {
@@ -235,11 +241,11 @@ export default {
     ...mapGetters({
       getPeople: "people/getPeople",
     }),
-    selectedButtonText() {
-      if (this.errorContent) return "Заполните поля!";
-      else if (this.errorLength) return "Добавьте позицию!";
-      else return "Рассчитать!";
-    },
+    //selectedButtonText() {
+    //  if (this.errorContent) return "Заполните поля!";
+    //  else if (this.errorLength) return "Добавьте позицию!";
+    //  else return "Рассчитать!";
+    //},
   },
   watch: {
     bill: {
@@ -282,7 +288,10 @@ export default {
       }
       &-text {
         &-row {
-          padding: 0 47px 0 25px;
+          padding: 10px 47px 0 25px;
+        }
+        &-btn {
+          @include btn(30vh, 0);
         }
       }
     }
@@ -299,6 +308,6 @@ export default {
     }
   }
 
-  @include btnanimation;
+  @include btnAnimation;
 }
 </style>

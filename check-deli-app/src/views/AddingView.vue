@@ -1,10 +1,10 @@
 <script>
-import Adding from '@/components/Adding.vue';
+import Adding from "@/components/Adding.vue";
 export default {
   components: {
-    Adding
-  }
-}
+    Adding,
+  },
+};
 </script>
 
 <template>
@@ -14,5 +14,5 @@ export default {
 </template>
 
 <style lang="scss">
-  @import '@/scss/container.scss';
+@import "@/scss/container.scss";
 </style>

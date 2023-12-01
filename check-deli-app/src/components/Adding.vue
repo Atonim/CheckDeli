@@ -50,6 +50,7 @@ export default {
       errorLength: false,
       errorContent: false,
       btnAnimated: false,
+      selectedButtonText: "К чекам!",
     };
   },
   mounted() {
@@ -101,16 +102,24 @@ export default {
     },
     triggerErrorButton() {
       this.btnAnimated = true;
-      setTimeout(() => (this.btnAnimated = false), 1000);
+      if (this.errorContent) this.selectedButtonText = "Заполните поля!";
+      else if (this.errorLength)
+        this.selectedButtonText = "Нужно больше людей!";
+      setTimeout(() => {
+        this.btnAnimated = false;
+        this.selectedButtonText = "К чекам!";
+      }, 2000);
     },
   },
-  computed: {
-    selectedButtonText() {
-      if (this.errorContent) return "Заполните поля!";
-      else if (this.errorLength) return "Нужно больше людей!";
-      else return "К чекам!";
-    },
-  },
+  //computed: {
+  //  selectedButtonText() {
+  //    if (this.errorContent) {
+  //      setTimeout(() => (this.btnAnimated = false), 1000);
+  //      return "Заполните поля!";
+  //    } else if (this.errorLength) return "Нужно больше людей!";
+  //    else return "К чекам!";
+  //  },
+  //},
 };
 </script>
 
@@ -145,6 +154,6 @@ export default {
     }
   }
 
-  @include btnanimation;
+  @include btnAnimation;
 }
 </style>
