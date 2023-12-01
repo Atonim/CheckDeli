@@ -11,7 +11,6 @@
 
 @mixin field() {
   text-align: center;
-  padding: 15px;
   width: 100%;
   @include adaptiveFont(18, 14);
 }
@@ -37,7 +36,7 @@
 
 @mixin btn($width, $margin) {
   //min-width: 40vw;
-  //padding: $margin;
+  margin: $margin;
   background-color: $component-color;
   color: $text-color;
   word-break: break-all;

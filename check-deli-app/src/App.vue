@@ -23,7 +23,7 @@ body {
 .wrap-container {
   max-width: 767px;
   margin: 0px auto;
-  padding: 15px;
+  padding: 30px 10px;
 }
 
 .v-input_details {

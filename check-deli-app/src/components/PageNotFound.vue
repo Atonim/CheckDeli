@@ -1,7 +1,7 @@
 <template>
   <div class="not-found">
     <h2>404</h2>
-    <p>Страница не найдена :(</p>
+    <p>Страница не найдена</p>
     <v-btn class="not-found-btn" @click="this.$router.push('/')">
       На главную
     </v-btn>
@@ -19,7 +19,7 @@
     color: $component-color;
   }
   p {
-    font-size: 2rem;
+    @include adaptiveFont(40, 24);
     color: $component-color;
   }
   &-btn {
