@@ -106,7 +106,6 @@
 }
 
 @mixin growingAnimation() {
-
   animation: grow 1s ease-in-out infinite alternate;
 
   @keyframes grow {

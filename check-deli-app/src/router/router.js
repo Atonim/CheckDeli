@@ -6,7 +6,6 @@ import ResultView from '@/views/ResultView.vue';
 import { createRouter, createWebHistory } from 'vue-router';
 import store from '@/store';
 
-
 const routes = [
   {
     path: '/',
@@ -46,6 +45,5 @@ const router = createRouter({
   history: createWebHistory(),
   routes,
 })
-
 
 export default router;

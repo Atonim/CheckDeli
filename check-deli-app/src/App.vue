@@ -1,11 +1,8 @@
 <template>
   <div class="wrap-container">
-    <router-view></router-view>
+    <router-view />
   </div>
 </template>
-
-<script>
-</script>
 
 <style len="scss">
 @import "@/scss/style.scss";
@@ -22,10 +19,6 @@ body {
   max-width: 767px;
   margin: 0px auto;
   padding: 30px 10px 10px 10px;
-}
-
-.v-input_details {
-  display: none;
 }
 </style>
 

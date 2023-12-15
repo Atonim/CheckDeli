@@ -26,8 +26,7 @@
                               hide-details="auto"
                               v-model.trim="position.title"
                               label="Название"
-                            >
-                            </v-text-field>
+                            />
                           </v-col>
 
                           <v-col cols="12" md="6">
@@ -37,8 +36,7 @@
                               @click.native.stop
                               v-model.number="position.price"
                               label="Цена"
-                            >
-                            </v-text-field>
+                            />
                           </v-col>
                         </v-row>
                       </v-expansion-panel-title>
@@ -56,8 +54,7 @@
                               item-title="name"
                               item-value="id"
                               v-model.trim="position.payer"
-                            >
-                            </v-select>
+                            />
                           </v-col>
                           <v-col cols="12" md="6">
                             <v-select
@@ -68,12 +65,12 @@
                               label="Кто делит?"
                               multiple
                             >
-                              <template v-slot:prepend-item>
+                              <template #prepend-item>
                                 <v-list-item
                                   title="Выбрать всех"
                                   @click="toggle($event, position)"
                                 >
-                                  <template v-slot:prepend>
+                                  <template #prepend>
                                     <v-checkbox-btn
                                       :color="
                                         this.addedSomeCustomers(position)
@@ -87,7 +84,7 @@
                                       :model-value="
                                         this.addedSomeCustomers(position)
                                       "
-                                    ></v-checkbox-btn>
+                                    />
                                   </template>
                                 </v-list-item>
                                 <v-divider class="mt-2"></v-divider>
@@ -138,7 +135,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
+import { mapGetters, mapMutations, mapActions } from "vuex";
 export default {
   data() {
     return {
@@ -286,9 +283,6 @@ export default {
       }
     }
   }
-  //.v-input_details {
-  //  display: none !important;
-  //}
   &-results {
     @include midresults;
   }
