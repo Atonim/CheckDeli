@@ -14,3 +14,5 @@
    "Раздели чек" сам посчитает, кто сколько и кому должен, даже если платил не один человек!  
    ![Стартовый экран](https://github.com/Atonim/CheckDeli/raw/master/check-deli-app/image/results.png)
 
+## Запуск приложения
+Приложение запускается с помощью команды ``npm run dev`` из папки **check-deli-app**
