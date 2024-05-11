@@ -1,0 +1,126 @@
+@import '@/scss/common/variables.scss';
+@import '@/scss/common/light.scss';
+
+@mixin field() {
+  text-align: center;
+  width: 100%;
+  @include adaptiveFont(18, 14);
+}
+
+@mixin header() {
+  border-bottom: 3px solid $background-page-color;
+  border-radius: 15px 15px 0 0;
+  background-color: $background-component-color;
+  padding: 15px;
+  color: $text-color;
+}
+
+@mixin main($minheight, $maxheight, $padding...) {
+  border-radius: 0 0 15px 15px;
+  background-color: $background-component-color;
+  color: $text-color;
+  padding: $padding;
+  max-height: $maxheight;
+  overflow: scroll;
+  overflow-x: hidden;
+  min-height: $minheight;
+}
+
+@mixin btn($width, $margin) {
+  min-width: $width;
+  margin: $margin;
+  background-color: $component-color;
+  color: $text-color;
+  @include adaptiveFont(18, 14)
+}
+
+@mixin apply() {
+  margin-top: 15px;
+  border-radius: 15px;
+  background-color: $background-component-color;
+  padding: 15px;
+}
+
+@mixin midresults() {
+  margin-top: 15px;
+  min-height: 50px;
+  border-radius: 15px;
+  background-color: $background-component-color;
+  padding: 10px;
+}
+
+@mixin card() {
+  border-radius: 15px;
+  margin-bottom: 15px;
+  background-color: $component-color;
+  color: $text-color;
+  word-break: break-all;
+  word-wrap: break-word;
+  @include adaptiveFont(18, 7)
+}
+
+@mixin scrollbar() {
+  scrollbar-color: $component-color $background-component-color;
+
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background-color: $scrollbar-thumb-color;
+  }
+
+  &::-webkit-scrollbar-track {
+    border-radius: 5px;
+    background-color: $scrollbar-track-color;
+    margin: 15px 0;
+    height: 90%;
+  }
+}
+
+@mixin btnAnimation() {
+  .animated {
+    animation: 1s ease-in-out forwards trambling-animation;
+    background: red;
+  }
+
+  @keyframes trambling-animation {
+
+    0%,
+    50%,
+    100% {
+      transform: translateX(0);
+    }
+
+    10%,
+    30% {
+      transform: translateX(-5px);
+    }
+
+    20%,
+    40% {
+      transform: translateX(5px);
+    }
+  }
+}
+
+@mixin growingAnimation() {
+  animation: grow 1s ease-in-out infinite alternate;
+
+  @keyframes grow {
+    0% {
+      transform: scale(1);
+    }
+
+    100% {
+      transform: scale(1.5);
+    }
+  }
+}
+
+@mixin adaptiveFont($pcSize, $mobSize) {
+  $addSize: $pcSize - $mobSize;
+  $maxWidth: $maxWidth - 280;
+  font-size: calc(#{$mobSize + px} + #{$addSize} * ((100vw - 280px) / #{$maxWidth}))
+}

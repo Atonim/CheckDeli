@@ -1,17 +1,23 @@
-<script setup>
-//import HelloWorld from './components/HelloWorld.vue'
-import Adding from './components/Adding.vue';
-</script>
-
 <template>
-  <!--<HelloWorld msg="Vite + Vue" />-->
-  <Adding />
+  <div class="wrap-container">
+    <router-view />
+  </div>
 </template>
 
-<style scoped>
-* {
+<style len="scss">
+body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: "Advent Pro", sans-serif;
+  color: #fff;
+}
+
+.wrap-container {
+  max-width: 767px;
+  margin: 0px auto;
+  padding: 30px 10px 10px 10px;
 }
 </style>
+
+

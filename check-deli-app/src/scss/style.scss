@@ -1,0 +1,6 @@
+@use 'vuetify' with ($color-pack: false,
+);
+@import '@/scss/common/mixins.scss';
+@import '@/scss/common/variables.scss';
+@import '@/scss/common/light.scss';
+@import url('https://fonts.googleapis.com/css2?family=Advent+Pro:wght@700&family=Press+Start+2P&family=Roboto:wght@300;400;700&display=swap');
